@@ -6,9 +6,10 @@ use App\Application\Contracts\Command;
 use App\Infrastructure\FileIO\CsvFileReader;
 use App\Infrastructure\FileIO\CsvFileWriter;
 
+//TODO what happen if the file is too big?
+
 class CSVCommand implements Command
 {
-
     CONST CALC_URL= 'App\Domain\Calculator\\';
 
     public function __construct(
@@ -30,7 +31,7 @@ class CSVCommand implements Command
 
             if(is_null($result))
             {
-                $this->log("Numbers are {$row[0]} and {$row[1]} are wrong - division 0");
+                $this->log("Numbers are {$row[0]} and {$row[1]} are wrong, is not allowed_");
             }
             elseif ($result > 0) {
                 $results[] = array_merge($row, [$result]);
