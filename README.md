@@ -1,0 +1,6 @@
+ - use symfony/console to have better command message
+ - manage exceptions
+ - check with phpstan
+ - Validate input
+ - Testing
+ - ...
