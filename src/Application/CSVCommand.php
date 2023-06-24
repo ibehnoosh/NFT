@@ -51,7 +51,6 @@ class CSVCommand implements Command
 
     private function performAction($numbers)
     {
-        var_dump($numbers);
         $result = call_user_func(self::CALC_URL."$this->action::calculate", intval($numbers[0]), intval($numbers[1]));
         return $result;
     }

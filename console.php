@@ -13,9 +13,8 @@ $file = $argv[2] ?? '';
 
 
 $logFile = new FileLogger(FILES.'log.csv');
-
 $resultFile = FILES.'result.csv';
+$fileForProcess = FILES.$file;
 
-$processCommand = new CSVCommand($action, FILES.$file , $logFile , $resultFile);
-
+$processCommand = new CSVCommand($action, $fileForProcess, $logFile , $resultFile);
 $processCommand->execute();

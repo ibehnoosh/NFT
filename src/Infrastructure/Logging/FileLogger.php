@@ -11,6 +11,8 @@ class FileLogger implements LoggerInterface
         private string $logFile
     )
     {
+        $fp = fopen($logFile, "w");
+        fclose($fp);
     }
 
     public function log($message): void
