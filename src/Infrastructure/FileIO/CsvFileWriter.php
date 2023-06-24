@@ -6,7 +6,7 @@ use App\Infrastructure\Contracts\FileWriterInterface;
 
 class CsvFileWriter implements FileWriterInterface
 {
-    public function writeFile(string $filename, array $data): void
+    public static function writeFile(string $filename, array $data): void
     {
         $handle = fopen($filename, 'w');
         if ($handle !== false) {
