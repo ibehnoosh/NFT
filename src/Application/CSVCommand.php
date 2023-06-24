@@ -12,6 +12,8 @@ class CSVCommand implements Command
 {
     CONST CALC_URL= 'App\Domain\Calculator\\';
 
+    private string $logMessage = '';
+
     public function __construct(
         public $action,
         public $file,
@@ -31,7 +33,7 @@ class CSVCommand implements Command
 
             if(is_null($result))
             {
-                $this->log("Numbers are {$row[0]} and {$row[1]} are wrong, is not allowed_");
+                $this->log("Numbers are {$row[0]} and {$row[1]} are wrong, is not allowed");
             }
             elseif ($result > 0) {
                 $results[] = array_merge($row, [$result]);
@@ -40,6 +42,7 @@ class CSVCommand implements Command
             }
         }
 
+        $this->saveLog();
         $this->writeResultsToCsv($results);
 
     }
@@ -58,7 +61,11 @@ class CSVCommand implements Command
 
     private function log($message)
     {
-        $this->logFile->log($message);
+        $this->logMessage .= $message.PHP_EOL;
+    }
+    private function saveLog()
+    {
+        $this->logFile->log($this->logMessage);
     }
 
     private function writeResultsToCsv($results)
