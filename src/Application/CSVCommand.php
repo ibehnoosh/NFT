@@ -26,6 +26,8 @@ class CSVCommand implements Command
 
     public function execute()
     {
+        $this->validateAction($this->action);
+
         $rows = $this->readCsvFile($this->file);
 
         foreach ($rows as $row) {
@@ -37,7 +39,12 @@ class CSVCommand implements Command
         $this->writeResultsToCsv($this->results);
 
     }
-
+    private function validateAction($action)
+    {
+        if (!in_array($this->action, static::$allowedActions, false)) {
+            throw new InvalidOptionException('<error>Action not allowed, must be one of plus, minus, multiply or division.</error>');
+        }
+    }
     private function handleResult($result, $row)
     {
         if ($result > 0) {
