@@ -4,5 +4,5 @@ namespace App\Infrastructure\Contracts;
 
 interface LoggerInterface
 {
-    public function log($message): void;
+    public static function log($file, $message): void;
 }

@@ -7,16 +7,15 @@ use App\Infrastructure\Contracts\LoggerInterface;
 class FileLogger implements LoggerInterface
 {
 
-    public function __construct(
-        private string $logFile
-    )
+    public static function log($logFile , $message): void
+    {
+        self::resetFile($logFile);
+        file_put_contents($logFile, $message, FILE_APPEND);
+    }
+
+    public static function resetFile($logFile)
     {
         $fp = fopen($logFile, "w");
         fclose($fp);
-    }
-
-    public function log($message): void
-    {
-        file_put_contents($this->logFile, $message, FILE_APPEND);
     }
 }

@@ -3,9 +3,9 @@ namespace App\Application\Command;
 
 use App\Application\Contracts\Command;
 use App\Application\Contracts\ValidatorInterface;
-use App\Infrastructure\Contracts\LoggerInterface;
 use App\Infrastructure\FileIO\CsvFileReader;
 use App\Infrastructure\FileIO\CsvFileWriter;
+use App\Infrastructure\Logging\FileLogger;
 
 class CSVCommand implements Command
 {
@@ -23,6 +23,7 @@ class CSVCommand implements Command
     private string $action;
     private string $file;
     private string $resultFile;
+    private string $logFile;
 
 
     /**
@@ -30,13 +31,13 @@ class CSVCommand implements Command
      */
 
     public function __construct(
-        public array $request,
-        public LoggerInterface $logFile,
+        public array $request
     )
     {
         $this->action = $request[1] ?? '';
         $this->file = $request[2] ?? '';
         $this->resultFile = FILES.'result.csv';
+        $this->logFile = FILES.'log.csv';
     }
 
     public function execute(): void
@@ -105,7 +106,7 @@ class CSVCommand implements Command
 
     private function saveLog(): void
     {
-        $this->logFile->log($this->logMessage);
+        FileLogger::log($this->logFile , $this->logMessage);
     }
 
     private function writeResultsToCsv($results): void
