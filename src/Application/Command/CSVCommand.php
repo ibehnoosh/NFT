@@ -58,6 +58,8 @@ class CSVCommand implements Command
         $this->saveLog();
         $this->writeResultsToCsv($this->results);
 
+        echo "\e[95mProcess is ended:\n\e[32m -Result File:  $this->resultFile \n\e[36m -Log File:  $this->logFile\e[0m\n";
+
     }
 
     public function setValidator(ValidatorInterface $validator): void
