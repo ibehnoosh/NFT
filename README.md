@@ -3,4 +3,3 @@
  - check with phpstan
  - Validate input -- Done!
  - Testing
- - ...

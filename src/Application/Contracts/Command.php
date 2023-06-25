@@ -4,5 +4,6 @@ namespace App\Application\Contracts;
 
 Interface Command
 {
-    public function execute();
+    public function execute(): void;
+    public function setValidator(ValidatorInterface $validator): void;
 }

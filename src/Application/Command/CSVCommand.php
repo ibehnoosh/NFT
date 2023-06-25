@@ -1,6 +1,5 @@
 <?php
-
-namespace App\Application;
+namespace App\Application\Command;
 
 use App\Application\Contracts\Command;
 use App\Application\Contracts\ValidatorInterface;
@@ -13,11 +12,22 @@ class CSVCommand implements Command
     CONST CALC_URL= 'App\Domain\Calculator\\';
 
     private string $logMessage = '';
+    /**
+     * @var array<mixed> $results
+     */
     private array $results = [];
+    /**
+     * @var array<mixed>  $validators
+     */
     private array $validators = [];
     private string $action;
     private string $file;
     private string $resultFile;
+
+
+    /**
+     * @param   array<mixed> $request
+     */
 
     public function __construct(
         public array $request,
@@ -25,15 +35,18 @@ class CSVCommand implements Command
     )
     {
         $this->action = $request[1] ?? '';
-        $file = $request[2] ?? '';
+        $this->file = $request[2] ?? '';
         $this->resultFile = FILES.'result.csv';
-        $this->file = FILES.$file;
     }
 
-    public function execute()
+    public function execute(): void
     {
+        /**
+         * @param   array<mixed> $this->request
+         */
+
         $this->validateRequest($this->request);
-/*
+
         $rows = $this->readCsvFile($this->file);
 
         foreach ($rows as $row) {
@@ -43,21 +56,22 @@ class CSVCommand implements Command
 
         $this->saveLog();
         $this->writeResultsToCsv($this->results);
-*/
 
     }
 
-    public function setValidator(ValidatorInterface $validator)
+    public function setValidator(ValidatorInterface $validator): void
     {
         $this->validators[] = $validator;
     }
-    private function validateRequest($request)
+
+    private function validateRequest(array $request)
     {
         foreach ($this->validators as $validator) {
             $validator->validate($request);
         }
     }
-    private function handleResult($result, $row)
+
+    private function handleResult(?int $result, array $row): void
     {
         if ($result > 0) {
             $this->results[] = array_merge($row, [$result]);
@@ -68,29 +82,33 @@ class CSVCommand implements Command
         }
     }
 
-    private function readCsvFile($file)
+    private function readCsvFile(string $file): array
     {
         $rows = CsvFileReader::readFile($file);
         return $rows;
     }
 
-    private function performAction($numbers)
+    private function performAction(array $nums): ?int
     {
-        $result = call_user_func(self::CALC_URL."$this->action::calculate", intval($numbers[0]), intval($numbers[1]));
+        $result = call_user_func(
+            self::CALC_URL.$this->action::calculate,
+            intval($nums[0]),
+            intval($nums[1])
+        );
         return $result;
     }
 
-    private function log($message)
+    private function log($message): void
     {
         $this->logMessage .= $message.PHP_EOL;
     }
 
-    private function saveLog()
+    private function saveLog(): void
     {
         $this->logFile->log($this->logMessage);
     }
 
-    private function writeResultsToCsv($results)
+    private function writeResultsToCsv($results): void
     {
         CsvFileWriter::writeFile($this->resultFile , $results);
     }
