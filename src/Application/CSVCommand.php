@@ -13,6 +13,7 @@ class CSVCommand implements Command
     CONST CALC_URL= 'App\Domain\Calculator\\';
 
     private string $logMessage = '';
+    private array $results = [];
 
     public function __construct(
         public $action,
@@ -26,25 +27,26 @@ class CSVCommand implements Command
     public function execute()
     {
         $rows = $this->readCsvFile($this->file);
-        $results = [];
 
         foreach ($rows as $row) {
             $result = $this->performAction($row);
-
-            if(is_null($result))
-            {
-                $this->log("Numbers are {$row[0]} and {$row[1]} are wrong, is not allowed");
-            }
-            elseif ($result > 0) {
-                $results[] = array_merge($row, [$result]);
-            } else {
-                $this->log("Numbers are {$row[0]} and {$row[1]} are wrong");
-            }
+            $this->handleResult($result, $row);
         }
 
         $this->saveLog();
-        $this->writeResultsToCsv($results);
+        $this->writeResultsToCsv($this->results);
 
+    }
+
+    private function handleResult($result, $row)
+    {
+        if ($result > 0) {
+            $this->results[] = array_merge($row, [$result]);
+        } elseif (is_null($result)) {
+            $this->log("Numbers are {$row[0]} and {$row[1]} are wrong, is not allowed");
+        } else {
+            $this->log("Numbers are {$row[0]} and {$row[1]} are wrong");
+        }
     }
 
     private function readCsvFile($file)
@@ -63,6 +65,7 @@ class CSVCommand implements Command
     {
         $this->logMessage .= $message.PHP_EOL;
     }
+
     private function saveLog()
     {
         $this->logFile->log($this->logMessage);
