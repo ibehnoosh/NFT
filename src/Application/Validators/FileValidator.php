@@ -3,7 +3,8 @@
 namespace App\Application\Validators;
 
 use App\Application\Contracts\ValidatorInterface;
-use InvalidArgumentException;
+use App\Application\Exceptions\InvalidArgumentExceptionValidator;
+
 
 class FileValidator implements ValidatorInterface
 {
@@ -11,11 +12,11 @@ class FileValidator implements ValidatorInterface
 
     public function validate(array $data): bool
     {
-        if (!isset($data['file'])) {
-            throw new InvalidArgumentException('File argument is missing.');
+        if (!isset($data['2'])) {
+            throw new InvalidArgumentExceptionValidator('File argument is missing.');
         }
 
-        $file = $data['file'];
+        $file = $data['2'];
 
         $this->checkFileExists($file);
         $this->checkFileReadable($file);
@@ -28,14 +29,14 @@ class FileValidator implements ValidatorInterface
     private function checkFileExists(string $file): void
     {
         if (!file_exists($file)) {
-            throw new InvalidArgumentException('File does not exist.');
+            throw new InvalidArgumentExceptionValidator('File does not exist.');
         }
     }
 
     private function checkFileReadable(string $file): void
     {
         if (!is_readable($file)) {
-            throw new InvalidArgumentException('File is not readable.');
+            throw new InvalidArgumentExceptionValidator('File is not readable.');
         }
     }
 
@@ -43,7 +44,7 @@ class FileValidator implements ValidatorInterface
     {
         $fileSize = filesize($file);
         if ($fileSize > $this->maxFileSize) {
-            throw new InvalidArgumentException('File size exceeds the maximum allowed limit.');
+            throw new InvalidArgumentExceptionValidator('File size exceeds the maximum allowed limit.');
         }
     }
 
@@ -51,7 +52,7 @@ class FileValidator implements ValidatorInterface
     {
         $fileInfo = pathinfo($file);
         if (!isset($fileInfo['extension']) || $fileInfo['extension'] !== 'csv') {
-            throw new InvalidArgumentException('Invalid file extension. Only CSV files are allowed.');
+            throw new InvalidArgumentExceptionValidator('Invalid file extension. Only CSV files are allowed.');
         }
     }
 }

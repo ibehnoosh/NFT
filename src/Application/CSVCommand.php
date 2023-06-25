@@ -3,10 +3,10 @@
 namespace App\Application;
 
 use App\Application\Contracts\Command;
+use App\Application\Contracts\ValidatorInterface;
+use App\Infrastructure\Contracts\LoggerInterface;
 use App\Infrastructure\FileIO\CsvFileReader;
 use App\Infrastructure\FileIO\CsvFileWriter;
-
-//TODO what happen if the file is too big?
 
 class CSVCommand implements Command
 {
@@ -14,20 +14,26 @@ class CSVCommand implements Command
 
     private string $logMessage = '';
     private array $results = [];
+    private array $validators = [];
+    private string $action;
+    private string $file;
+    private string $resultFile;
 
     public function __construct(
-        public $action,
-        public $file,
-        public $logFile,
-        public $resultFile
+        public array $request,
+        public LoggerInterface $logFile,
     )
     {
+        $this->action = $request[1] ?? '';
+        $file = $request[2] ?? '';
+        $this->resultFile = FILES.'result.csv';
+        $this->file = FILES.$file;
     }
 
     public function execute()
     {
-        $this->validateAction($this->action);
-
+        $this->validateRequest($this->request);
+/*
         $rows = $this->readCsvFile($this->file);
 
         foreach ($rows as $row) {
@@ -37,12 +43,18 @@ class CSVCommand implements Command
 
         $this->saveLog();
         $this->writeResultsToCsv($this->results);
+*/
 
     }
-    private function validateAction($action)
+
+    public function setValidator(ValidatorInterface $validator)
     {
-        if (!in_array($this->action, static::$allowedActions, false)) {
-            throw new InvalidOptionException('<error>Action not allowed, must be one of plus, minus, multiply or division.</error>');
+        $this->validators[] = $validator;
+    }
+    private function validateRequest($request)
+    {
+        foreach ($this->validators as $validator) {
+            $validator->validate($request);
         }
     }
     private function handleResult($result, $row)

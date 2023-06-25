@@ -1,20 +1,25 @@
 <?php
 
 use App\Application\CSVCommand;
-use App\Infrastructure\FileIO\CsvFileWriter;
+use App\Application\Validators\ActionValidator;
+use App\Application\Validators\FileValidator;
 use App\Infrastructure\Logging\FileLogger;
 
 require __DIR__.'/vendor/autoload.php';
 
 define('FILES', __DIR__ . '/Files/');
 
-$action = $argv[1] ?? '';
-$file = $argv[2] ?? '';
+
 
 
 $logFile = new FileLogger(FILES.'log.csv');
-$resultFile = FILES.'result.csv';
-$fileForProcess = FILES.$file;
+$fileValidator = new FileValidator();
+$actionValidator = new ActionValidator();
 
-$processCommand = new CSVCommand($action, $fileForProcess, $logFile , $resultFile);
+
+
+$processCommand = new CSVCommand($argv, $logFile);
+$processCommand->setValidator($actionValidator);
+//$processCommand->setValidator($fileValidator);
 $processCommand->execute();
+
