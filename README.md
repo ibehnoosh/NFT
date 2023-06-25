@@ -1,5 +1,5 @@
- - use symfony/console to have better command message
+ - use symfony/console to have better command message -> Cancle it!
  - manage exceptions -- Done!
- - check with phpstan
+ - check with phpstan -- Done!
  - Validate input -- Done!
  - Testing
