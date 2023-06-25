@@ -6,8 +6,15 @@ use App\Application\Contracts\ValidatorInterface;
 
 class ActionValidator implements ValidatorInterface
 {
-    public function validate(array $data): bool
+    private array $allowedActions = ['plus', 'minus', 'multiply', 'division'];
+
+    public function validate(array $action): bool
     {
-        return true;
+        if (!isset($data['action'])) {
+            return false;
+        }
+
+        $action = $data['action'];
+        return in_array($action, $this->allowedActions);
     }
 }
