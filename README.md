@@ -2,4 +2,4 @@
  - manage exceptions -- Done!
  - check with phpstan -- Done!
  - Validate input -- Done!
- - Testing
+ - Testing -- Done!
