@@ -5,7 +5,7 @@ use App\Application\Contracts\Command;
 use App\Application\Contracts\ValidatorInterface;
 use App\Infrastructure\FileIO\CsvFileReader;
 use App\Infrastructure\FileIO\CsvFileWriter;
-use App\Infrastructure\Logging\FileLogger;
+use App\Infrastructure\Logger\FileLogger;
 
 class CSVCommand implements Command
 {

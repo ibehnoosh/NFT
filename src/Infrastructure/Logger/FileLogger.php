@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Infrastructure\Logging;
+namespace App\Infrastructure\Logger;
 
 use App\Infrastructure\Contracts\LoggerInterface;
 
