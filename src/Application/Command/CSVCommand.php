@@ -37,7 +37,7 @@ class CSVCommand implements Command
         $this->action = $request[1] ?? '';
         $this->file = $request[2] ?? '';
         $this->resultFile = FILES.'result.csv';
-        $this->logFile = FILES.'log.csv';
+        $this->logFile = FILES.'log.log';
     }
 
     public function execute(): void
