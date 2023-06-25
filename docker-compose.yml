@@ -1,0 +1,7 @@
+version: "1.0"
+services:
+  php:
+    container_name: nft-php
+    build: .docker/php
+    volumes:
+      - .:/var/www/html
