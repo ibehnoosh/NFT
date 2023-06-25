@@ -20,6 +20,6 @@ $actionValidator = new ActionValidator();
 
 $processCommand = new CSVCommand($argv, $logFile);
 $processCommand->setValidator($actionValidator);
-//$processCommand->setValidator($fileValidator);
+$processCommand->setValidator($fileValidator);
 $processCommand->execute();
 

@@ -1,6 +1,6 @@
  - use symfony/console to have better command message
- - manage exceptions
+ - manage exceptions -- Done!
  - check with phpstan
- - Validate input
+ - Validate input -- Done!
  - Testing
  - ...
