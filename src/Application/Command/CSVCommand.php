@@ -91,7 +91,7 @@ class CSVCommand implements Command
     private function performAction(array $nums): ?int
     {
         $result = call_user_func(
-            self::CALC_URL.$this->action::calculate,
+            self::CALC_URL."$this->action::calculate",
             intval($nums[0]),
             intval($nums[1])
         );

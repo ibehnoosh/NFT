@@ -17,6 +17,6 @@ class FileLogger implements LoggerInterface
 
     public function log($message): void
     {
-        file_put_contents($this->logFile, $message . PHP_EOL, FILE_APPEND);
+        file_put_contents($this->logFile, $message, FILE_APPEND);
     }
 }

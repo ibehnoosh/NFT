@@ -16,7 +16,7 @@ class ActionValidator implements ValidatorInterface
             return false;
         }
 
-        $action = $data['1'];
+        $action = strtolower($data['1']);
         if(!in_array($action, $this->allowedActions))
         {
             throw new InvalidArgumentExceptionValidator('The Action is not Allowed.  Just <plus , minus, multiply, division>  are Allowed');
