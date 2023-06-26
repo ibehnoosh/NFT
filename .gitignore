@@ -1,5 +1,5 @@
 /vendor/
-.idea/
+/.idea/
 /Files/
-!/.phpunit.cache/
-!/phpunit.xml.bak
+/.phpunit.cache/
+phpunit.xml.bak

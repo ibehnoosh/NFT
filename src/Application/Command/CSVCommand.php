@@ -108,11 +108,22 @@ class CSVCommand implements Command
 
     private function saveLog(): void
     {
-        FileLogger::log($this->logFile , $this->logMessage);
+        $message = $this->setStartMessage() . $this->logMessage . $this->setEndMessage();
+
+        FileLogger::log($this->logFile , $message);
     }
 
     private function writeResultsToCsv($results): void
     {
         CsvFileWriter::writeFile($this->resultFile , $results);
+    }
+
+    public function setStartMessage(): ?string
+    {
+        return "Started {$this->action} operation \r\n";
+    }
+    public function setEndMessage(): ?string
+    {
+        return "Finished {$this->action} operation \r\n";
     }
 }

@@ -18,4 +18,5 @@ class FileLogger implements LoggerInterface
         $fp = fopen($logFile, "w");
         fclose($fp);
     }
+
 }
