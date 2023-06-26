@@ -118,11 +118,11 @@ class CSVCommand implements Command
         CsvFileWriter::writeFile($this->resultFile , $results);
     }
 
-    public function setStartMessage(): ?string
+    public function setStartMessage(): string
     {
         return "Started {$this->action} operation \r\n";
     }
-    public function setEndMessage(): ?string
+    public function setEndMessage(): string
     {
         return "Finished {$this->action} operation \r\n";
     }
